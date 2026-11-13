@@ -36,5 +36,13 @@ EOT
       key        = string
     })))
   }))
+  validation {
+    condition = alltrue([
+      for k, v in var.coupons : (
+        v.duration == null || (contains(["forever", "once", "repeating"], v.duration))
+      )
+    ])
+    error_message = "must be one of: \"forever\", \"once\", \"repeating\""
+  }
 }
 
